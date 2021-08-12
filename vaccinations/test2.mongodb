@@ -1,0 +1,98 @@
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// The current database to use.
+use('Vaccinations');
+
+// Search for documents in the current collection.
+
+db.order.aggregate(
+  [
+    {
+      $lookup:
+        {
+          from: "vaccination",
+          localField: "id",
+          foreignField: "sourceBottle",
+          as: "vaccination"
+        }
+    },
+    {
+      $unwind: {
+        path: "$vaccination"
+      }
+    },
+    {
+      $match:
+      { $and :
+        [
+          { $expr: 
+            { $lte: [ 
+                  {
+                    $dateDiff: 
+                    {
+                        startDate: { $toDate: "$arrived" },
+                        endDate: { $toDate: "$vaccination.vaccinationDate" },
+                        unit: "day"
+                  
+                    }
+                  }, 30
+                ] 
+            } 
+          } 
+        ]
+      }
+    },
+    {
+        $count: "id"
+    }
+    /*
+    {
+      $project:
+      {
+        arrived: "$arrived",
+        vaccinationDate: "$vaccination.vaccinationDate",
+        dateDifference:
+        {
+            $dateDiff: 
+            {
+                startDate: { $toDate: "$arrived" },
+                endDate: { $toDate: "$vaccination.vaccinationDate" },
+                unit: "day"
+            }
+        }
+      }
+    }
+    */
+  ]
+)
+
+/*
+db.order.aggregate(
+  [
+    {
+      $lookup:
+        {
+          from: "vaccination",
+          localField: "id",
+          foreignField: "sourceBottle",
+          as: "vaccinations"
+        }
+    },
+    {
+      $project:
+        {
+          _id: 0,
+          id: 1,
+          orderNumber: 1,
+          responsiblePerson: 1,
+          healthCareDistrict: 1,
+          vaccine: 1,
+          injections: 1,
+          arrived: 1,
+          usedInjections: { $size: "$vaccinations" }
+        }
+    }
+  ]
+)
+*/

@@ -1,0 +1,20 @@
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// The current database to use.
+use('Vaccinations');
+
+// Search for documents in the current collection.
+
+db.order.aggregate(
+  [
+    {
+      $group:
+        {
+          _id: {vaccine: "$vaccine",day: { $dateToString: { format: "%Y-%m-%d", date: { $toDate: "$arrived" } } }},
+          count: { $sum: 1 }
+        }
+    },
+    { $sort : { _id.day : 1} }
+  ]
+)
