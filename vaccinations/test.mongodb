@@ -6,6 +6,7 @@ use('Vaccinations');
 
 // Search for documents in the current collection.
 
+/*
 db.order.aggregate(
   [
     {
@@ -34,7 +35,7 @@ db.order.aggregate(
     {
       $count:"id"
     }
-    /*
+    
     {
       $project:
       {
@@ -42,13 +43,36 @@ db.order.aggregate(
         vaccinationDate: "$vaccination.vaccinationDate"
       }
     }
-    */
+    
   ]
 )
-
-/*
+*/
 db.order.aggregate(
   [
+    { 
+      $match: 
+      { 
+        $expr: 
+        {
+          $lt: 
+          [ 
+            "$arrived", 
+            {
+              $dateToString: 
+              {
+                date: {
+                  $dateSubtract: {
+                    startDate: { $toDate: "2021-04-12T11:10:06.473587Z" },
+                    unit: "day",
+                    amount: 30
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       $lookup:
         {
@@ -59,19 +83,45 @@ db.order.aggregate(
         }
     },
     {
-      $project:
-        {
-          _id: 0,
-          id: 1,
-          orderNumber: 1,
-          responsiblePerson: 1,
-          healthCareDistrict: 1,
-          vaccine: 1,
-          injections: 1,
-          arrived: 1,
-          usedInjections: { $size: "$vaccinations" }
+      $project: 
+      {
+        vaccine: 1,
+        injections: 1,
+        vaccinations: 
+        { 
+          $filter: 
+          { 
+            input: "$vaccinations", 
+            as: "vaccinations", 
+            cond: 
+            { 
+              $lte: 
+              [ 
+                "$$vaccinations.vaccinationDate", 
+                {
+                  $dateToString: {
+                    date: {
+                        $dateAdd: {
+                        startDate: { $toDate: "$arrived" },
+                        unit: "day",
+                        amount: 30
+                      }
+                    }
+                  }
+                } 
+              ] 
+            } 
+          } 
         }
+      }
+    },
+    {
+      $group: {
+        _id: "$vaccine",
+        expired: { $sum: { $subtract: ["$injections", { $size: "$vaccinations" } ] } },
+        done: {$sum: { $size: "$vaccinations" }},
+        total: { $sum: "$injections" }
+      }
     }
   ]
 )
-*/

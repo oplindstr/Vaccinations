@@ -8,13 +8,58 @@ use('Vaccinations');
 
 db.order.aggregate(
   [
-    {
-      $group:
+    { 
+      $match: 
+      { 
+        $expr: 
         {
-          _id: {vaccine: "$vaccine",day: { $dateToString: { format: "%Y-%m-%d", date: { $toDate: "$arrived" } } }},
-          count: { $sum: 1 }
+          $lt: 
+          [ 
+            "$arrived", 
+            {
+              $dateToString: 
+              {
+                date: {
+                  $dateSubtract: {
+                    startDate: { $toDate: "2021-04-12T11:10:06.473587Z" },
+                    unit: "day",
+                    amount: 30
+                  }
+                }
+              }
+            }
+          ]
+          
         }
+      }
     },
-    { $sort : { _id.day : 1} }
+    /**
+     * specifications: The fields to
+     *   include or exclude.
+     */
+    {
+      $project: 
+      {
+        arrived: 1,
+        diff: 
+          {
+            $dateToString: {
+              date: {
+                $dateSubtract: {
+                  startDate: { $toDate: "2021-04-12T11:10:06.473587Z" },
+                  unit: "day",
+                  amount: 30
+                }
+              }
+            }
+          }
+      }
+    },
+    {
+      $sort:
+      {
+        arrived: -1
+      }
+    }
   ]
 )

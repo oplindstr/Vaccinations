@@ -1,3 +1,8 @@
 db.order.count({arrived : {"$gt": "2021-03-20", "$lt": "2021-03-21"}})
 db.vaccination.count({sourceBottle : "8b2d9041-3b0e-4c65-9b5a-32475dbce15e"})
 db.order.find({id : "8b2d9041-3b0e-4c65-9b5a-32475dbce15e"})
+
+Tee sivu jossa lukee paljonko on erääntymässä. (10 päivän aikana)
+Mikä pullo erääntyy seuraavaksi / mitkä 10 pulloa esim.
+Päivämäärän valinta ja talletus globaaliksi
+10 arvot edellisissä muokattaviksi jos aikaa

@@ -9,61 +9,97 @@ use('Vaccinations');
 db.order.aggregate(
   [
     {
+      $match:
+      {  
+        $expr: 
+        { 
+          $and: [
+            {
+              $lte: [ 
+                "$arrived",
+                {
+                  $dateToString: 
+                  {
+                    date: {
+                      $dateSubtract: 
+                      {
+                          startDate: { $toDate: "2021/04/12" },
+                          unit: "day",
+                          amount: 23
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              $gte: [ 
+                "$arrived",
+                {
+                  $dateToString: 
+                  {
+                    date: {
+                      $dateSubtract: 
+                      {
+                          startDate: { $toDate: "2021/04/12" },
+                          unit: "day",
+                          amount: 30
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        } 
+      }
+    },
+    {
+      $sort:
+      {
+        arrived: 1
+      }
+    },
+    {
       $lookup:
         {
           from: "vaccination",
           localField: "id",
           foreignField: "sourceBottle",
-          as: "vaccination"
+          as: "vaccinations"
         }
     },
     {
-      $unwind: {
-        path: "$vaccination"
-      }
-    },
-    {
-      $match:
-      { $and :
-        [
-          { $expr: 
-            { $lte: [ 
-                  {
-                    $dateDiff: 
-                    {
-                        startDate: { $toDate: "$arrived" },
-                        endDate: { $toDate: "$vaccination.vaccinationDate" },
-                        unit: "day"
-                  
-                    }
-                  }, 30
-                ] 
+      $project: 
+      {
+        vaccine: 1,
+        injections: 1,
+        arrived: 1,
+        vaccinations: 
+        { 
+          $filter: 
+          { 
+            input: "$vaccinations", 
+            as: "vaccinations", 
+            cond: 
+            { 
+              $lte: 
+              [ 
+                "$$vaccinations.vaccinationDate", 
+                { $toDate: "2021/04/12" }
+              ] 
             } 
           } 
-        ]
+        }
       }
     },
     {
-        $count: "id"
-    }
-    /*
-    {
-      $project:
+      $group:
       {
-        arrived: "$arrived",
-        vaccinationDate: "$vaccination.vaccinationDate",
-        dateDifference:
-        {
-            $dateDiff: 
-            {
-                startDate: { $toDate: "$arrived" },
-                endDate: { $toDate: "$vaccination.vaccinationDate" },
-                unit: "day"
-            }
-        }
+        _id: "$vaccine",
+        count: { $sum: { $subtract: ["$injections", { $size: "$vaccinations" } ] } }
       }
     }
-    */
   ]
 )
 

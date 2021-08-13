@@ -6,7 +6,7 @@ const databaseHandler = nextConnect();
 databaseHandler.use(middleware);
 
 databaseHandler.get(async (req, res) => {
-    let orders = await req.db.collection("order").aggregate(
+    let orders = await req.db.collection('order').aggregate(
         [
           {
             $lookup:

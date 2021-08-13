@@ -1,17 +1,21 @@
 import styles from '../styles/Layout.module.css'
 import Nav from './Nav'
 import Header from './Header'
+import { DateContext, DateProvider } from '../DateContext'
 
 const Layout = ({children}) => {
     return (
-        <>
-        <Nav />
-        <div className={styles.container}>
-            <main className={styles.main}>
-                {children}
-            </main>
-        </div>
-        </>
+        <DateProvider>
+            <>
+            <Nav />
+            <Header />
+            <div className={styles.container}>
+                <main className={styles.main}>
+                    {children}
+                </main>
+            </div>
+            </>
+        </DateProvider>
     ) 
 }
 

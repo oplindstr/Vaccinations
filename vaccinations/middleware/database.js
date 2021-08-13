@@ -10,7 +10,7 @@ async function database(req, res, next) {
   await client.connect();
   req.dbClient = client;
   req.db = client.db(process.env.DATABASE_NAME);
-  return next();s
+  return next();
 }
 
 const middleware = nextConnect();
