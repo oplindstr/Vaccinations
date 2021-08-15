@@ -22,8 +22,11 @@ https://docs.mongodb.com/manual/administration/install-community/
 Import all datasets from the resources folder into the database.
 
 mongoimport --db Vaccinations --collection vaccination --file vaccinations.source
+
 mongoimport --db Vaccinations --collection order --file Antiqua.source
+
 mongoimport --db Vaccinations --collection order --file SolarBuddhica.source
+
 mongoimport --db Vaccinations --collection order --file Zerpfy.source
 
 # Running the application
