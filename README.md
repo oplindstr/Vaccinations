@@ -6,6 +6,8 @@ https://github.com/solita/vaccine-exercise-2021
 
 The application showcases vaccination statistics using a custom dataset that was provided with the exercise.
 
+Unfortunately, time ran a little short and I didn't manage to write proper tests for the application. Also, the installation and running guide could be more detailed and there may be some difficulties with some of the steps.
+
 # Installation guide
 
 Install npm.
