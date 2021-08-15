@@ -10,11 +10,11 @@ The application showcases vaccination statistics using a custom dataset that was
 
 Install npm.
 
-Install NodeJS. Version 12.0 or later
+Install NodeJS. Version 12.0 or later.
 
-install Next
+Install Next.
 
-install MongoDB version 5.0 (or later)
+Install MongoDB version 5.0 (or later).
 
 Import all datasets from the resources folder into the database.
 
