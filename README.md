@@ -19,6 +19,8 @@ Install NodeJS. Version 12.0 or later.
 https://nodejs.org/en/download/
 
 Install Next.
+
+https://nextjs.org/docs
 npm install next
 
 Install MongoDB version 5.0 (or later).
