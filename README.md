@@ -41,6 +41,7 @@ The database name Vaccinations can be changed and references in the .env.local f
 The web application can be built and started with the following commands in the vaccinations_app folder:
 
 npm run build
+
 npm run start
 
 You can also run a development environment with the command
