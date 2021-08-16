@@ -6,6 +6,9 @@ https://github.com/solita/vaccine-exercise-2021
 
 The application showcases vaccination statistics using a custom dataset that was provided with the exercise.
 
+The application's client and server side uses Next.js, which is a framework that allows building React-based applications on top of Node.js.
+The application's database is an instance of MongoDB.
+
 Unfortunately, time ran a little short and I didn't manage to write proper tests for the application. Also, the installation and running guide could be more detailed and there may be some difficulties with some of the steps.
 
 # Installation guide
@@ -31,9 +34,16 @@ mongoimport --db Vaccinations --collection order --file SolarBuddhica.source
 
 mongoimport --db Vaccinations --collection order --file Zerpfy.source
 
+The database name Vaccinations can be changed and references in the .env.local file. The collection names "order" and "vaccination" need to be exactly as such.
+
 # Running the application
 
-The web application can be started with the following command in the vaccinations_app folder:
+The web application can be built and started with the following commands in the vaccinations_app folder:
+
+npm run build
+npm run start
+
+You can also run a development environment with the command
 
 npm run dev
 
