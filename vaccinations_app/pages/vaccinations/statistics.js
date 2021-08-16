@@ -7,7 +7,7 @@ export default function Statistics() {
     <div>
         <h1>Vaccination statistics</h1>
 
-        <p>This page shows aggregated information on vaccinations based on the whole data set of the application. The date in the upper left corner doesn't matter here</p>
+        <p>This page shows aggregated information on vaccinations based on the whole data set of the application. The date in the upper left corner doesn&apos;t matter here</p>
 
         <h2>Vaccinations given per day</h2>
 

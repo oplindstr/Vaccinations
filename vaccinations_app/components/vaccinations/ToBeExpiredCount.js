@@ -17,7 +17,7 @@ const ToBeExpiredCount = () => {
     return (
       <>
         {data.map((vaccine) => 
-          <p>{vaccine._id}: {vaccine.count}</p>
+          <p key={vaccine._id}>{vaccine._id}: {vaccine.count}</p>
         )}
       </>
     )

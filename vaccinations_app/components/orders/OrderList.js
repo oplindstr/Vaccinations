@@ -12,7 +12,7 @@ const OrderList = ({orders}) => {
           <th>Expires on</th>
         </tr>
         {orders.map((order) => 
-          <Order order={order} />
+          <Order key={order.id} order={order} />
         )}
       </table>
     )

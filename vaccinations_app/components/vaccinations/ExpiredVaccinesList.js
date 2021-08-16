@@ -20,7 +20,7 @@ const ExpiredVaccinesList = ({expirations}) => {
           <th>Total number of injections in expired bottles</th>
         </tr>
         {expirations.map((expiration) => 
-          <ExpiredVaccine expired={expiration} />
+          <ExpiredVaccine key={expiration.id} expired={expiration} />
         )}
         <tr>
           <td>Total</td>

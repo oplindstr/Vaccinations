@@ -7,7 +7,7 @@ export default function Statistics() {
     <div>
         <h1>Order statistics</h1>
 
-        <p>This page shows aggregated information on orders based on the whole data set of the application. The date in the upper left corner doesn't matter here</p>
+        <p>This page shows aggregated information on orders based on the whole data set of the application. The date in the upper left corner doesn&apos;t matter here</p>
 
         <h2>Orders arrived per day</h2>
 
